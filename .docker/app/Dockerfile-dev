@@ -1,0 +1,21 @@
+FROM node:18-alpine
+
+ARG UID
+ARG GID
+
+ENV UID=${UID}
+ENV GID=${GID}
+
+WORKDIR /app
+
+RUN apk update && apk upgrade
+
+RUN apk add yarn
+
+COPY .docker/app/entrypoint-dev.sh /entrypoint.sh
+
+RUN chmod +x /entrypoint.sh
+
+EXPOSE 8080
+
+ENTRYPOINT [ "/entrypoint.sh" ]
